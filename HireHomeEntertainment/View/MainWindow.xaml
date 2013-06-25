@@ -1,0 +1,11 @@
+﻿<Window x:Class="HireHomeEntertainment.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:view="clr-namespace:HireHomeEntertainment.View"
+        Title="MainWindow" WindowStyle="None" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="MainWindow_KeyDown">
+    <Grid>
+        <Frame Name="NavigationFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Navigated="NavigationFrame_Navigated" />
+        <!--<view:ButtonView x:Name="NavButtons" Grid.Row="2" DataContext="{Binding ElementName=NavigationFrame, Path=DataContext}" />-->
+    </Grid>
+</Window>
