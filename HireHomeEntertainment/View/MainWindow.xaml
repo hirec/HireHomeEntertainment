@@ -4,8 +4,13 @@
         xmlns:view="clr-namespace:HireHomeEntertainment.View"
         Title="MainWindow" WindowStyle="None" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="MainWindow_KeyDown">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1"  StartPoint="0.5,0">
+            <GradientStop Color="#0a0117"/>
+            <GradientStop Color="#FF2E113E" Offset="2"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid>
         <Frame Name="NavigationFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Navigated="NavigationFrame_Navigated" />
-        <!--<view:ButtonView x:Name="NavButtons" Grid.Row="2" DataContext="{Binding ElementName=NavigationFrame, Path=DataContext}" />-->
     </Grid>
 </Window>

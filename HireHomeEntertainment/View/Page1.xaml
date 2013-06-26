@@ -4,13 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:ms="http://namespaces.mindscape.co.nz/wpf"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      mc:Ignorable="d" Title="Page1" KeyDown="Page_KeyDown_1">
-    <Page.Background>
-        <LinearGradientBrush EndPoint="0.5,1"  StartPoint="0.5,0">
-            <GradientStop Color="#0a0117"/>
-            <GradientStop Color="#FF2E113E" Offset="2"/>
-        </LinearGradientBrush>
-    </Page.Background>
+      mc:Ignorable="d" Title="Page1" Loaded="Page_Loaded" Unloaded="Page_Unloaded">   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

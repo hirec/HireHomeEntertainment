@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HireHomeEntertainment.ViewModel;
+﻿using GalaSoft.MvvmLight.Messaging;
 using HireHomeEntertainment.Singletons;
+using HireHomeEntertainment.ViewModel;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Navigation;
+
 
 namespace HireHomeEntertainment.View
 {
@@ -25,7 +17,7 @@ namespace HireHomeEntertainment.View
         private Page2 p2;
         private Page1ViewModel vm1;
         private Page2ViewModel vm2;
-
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -43,34 +35,23 @@ namespace HireHomeEntertainment.View
         private void NavigationFrame_Navigated(object sender, NavigationEventArgs e)
         {
             FrameworkElement element = NavigationFrame.NavigationService.Content as FrameworkElement;
-            if (element != null)
-            {
-                //Commented out only needed to map NavButtons from ButtonView if in MainWindow as a view
-                //NavButtons.DataContext = element.DataContext;
-                return;
-            }
-        }
-
+        }       
         public void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
+            Messenger.Default.Send<KeyEventArgs>(e);
+           
             if (e.Key == Key.D1 || e.Key == Key.NumPad1)
             {
                 // Go to page1                
                 p1.DataContext = vm1;
-                Navigator.NavigationService.Navigate(p1);
+                Navigator.NavigationService.Navigate(p1);               
             }
             if (e.Key == Key.D2 || e.Key == Key.NumPad2)
             {
                 // Go to page2
                 p2.DataContext = vm2;
-                Navigator.NavigationService.Navigate(p2);
+                Navigator.NavigationService.Navigate(p2);               
             }
-
-        }
-
-        private void PageNavigation(string Nav_Page) 
-        {
-           
-        }
+        }        
     }
 }

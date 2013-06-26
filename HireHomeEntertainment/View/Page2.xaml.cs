@@ -24,5 +24,15 @@ namespace HireHomeEntertainment.View
         {
             InitializeComponent();
         }
+
+        private void MovieCoverflow_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void MovieCoverflowText_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

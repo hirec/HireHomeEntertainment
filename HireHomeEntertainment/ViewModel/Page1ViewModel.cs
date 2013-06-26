@@ -1,5 +1,7 @@
-﻿using HireHomeEntertainment.View;
+﻿using GalaSoft.MvvmLight.Messaging;
 using MVVM;
+using System.Windows;
+using System.Windows.Input;
 
 namespace HireHomeEntertainment.ViewModel
 {
@@ -7,9 +9,7 @@ namespace HireHomeEntertainment.ViewModel
     {
         public Page1ViewModel()
         {
-           
         }
-
-       
+               
     }
 }
