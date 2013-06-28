@@ -9,6 +9,7 @@ namespace HireHomeEntertainment.ViewModel
     {
         public Page1ViewModel()
         {
+         
         }
                
     }

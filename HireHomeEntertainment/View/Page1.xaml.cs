@@ -8,7 +8,7 @@ namespace HireHomeEntertainment.View
 {
     /// <summary>
     /// Interaction logic for Page1.xaml
-    /// </summary>
+    /// </summary> 
     public partial class Page1 : Page
     {
 

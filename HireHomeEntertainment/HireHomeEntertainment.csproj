@@ -37,10 +37,12 @@
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=eabbf6a5f5af5004, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.WPF45.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Mindscape.WpfElements">
       <HintPath>..\..\WpfApplication1\WpfApplication1\Mindscape.WpfElements.dll</HintPath>
@@ -69,6 +71,7 @@
     <Compile Include="Model\Argument.cs" />
     <Compile Include="Model\Mouth.cs" />
     <Compile Include="Singletons\Navigator.cs" />
+    <Compile Include="Singletons\PageNavigation.cs" />
     <Compile Include="ViewModel\Page1ViewModel.cs" />
     <Compile Include="ViewModel\Page2ViewModel.cs" />
     <Compile Include="View\Page1.xaml.cs">

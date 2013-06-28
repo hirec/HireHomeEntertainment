@@ -12,46 +12,22 @@ namespace HireHomeEntertainment.View
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        private Page1 p1;
-        private Page2 p2;
-        private Page1ViewModel vm1;
-        private Page2ViewModel vm2;
-       
+    {   
         public MainWindow()
         {
-            InitializeComponent();
-            InitializePages();
-        }
-
-        public void InitializePages()
-        {
-            vm1 = new Page1ViewModel();
-            vm2 = new Page2ViewModel();
-            p1 = new Page1();
-            p2 = new Page2(); 
-        }
-
+            InitializeComponent();           
+        }      
         private void NavigationFrame_Navigated(object sender, NavigationEventArgs e)
         {
+            //Sets the framwork element to inject pages into this area with pagenavigation class
             FrameworkElement element = NavigationFrame.NavigationService.Content as FrameworkElement;
         }       
         public void MainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            Messenger.Default.Send<KeyEventArgs>(e);
-           
-            if (e.Key == Key.D1 || e.Key == Key.NumPad1)
-            {
-                // Go to page1                
-                p1.DataContext = vm1;
-                Navigator.NavigationService.Navigate(p1);               
-            }
-            if (e.Key == Key.D2 || e.Key == Key.NumPad2)
-            {
-                // Go to page2
-                p2.DataContext = vm2;
-                Navigator.NavigationService.Navigate(p2);               
-            }
+        {         
+            //Sends Keypress message to any viewmodel that registers to receive messsage
+            //EX. to REGISTER  Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown);   
+            //EX. Funtion   private void MainWindow_KeyDown(KeyEventArgs e)
+            Messenger.Default.Send<KeyEventArgs>(e);          
         }        
     }
 }
