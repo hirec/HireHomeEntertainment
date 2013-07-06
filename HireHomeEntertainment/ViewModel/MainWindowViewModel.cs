@@ -9,26 +9,24 @@ using HireHomeEntertainment.Singletons;
 namespace HireHomeEntertainment.ViewModel
 {
     class MainWindowViewModel : ViewModelBase
-    {
-        PageNavigation pagnav = new PageNavigation();
-
+    {        
         public MainWindowViewModel()
         {
             //Registers to listen for any keypress in the MainWindow
             Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown);   
-            //Load Default Page      
-            pagnav.NavigatePage("p1");
+            //Load Default Page   
+            PageNavigation.Instance.NavigatePage("p1");          
         }
         
         private void MainWindow_KeyDown(KeyEventArgs e)
-        {           
+        {
             if (e.Key == Key.D1 || e.Key == Key.NumPad1)
                 {
-                    pagnav.NavigatePage("p1");  
+                    PageNavigation.Instance.NavigatePage("p1");
                 }
                 if (e.Key == Key.D2 || e.Key == Key.NumPad2)
                 {
-                    pagnav.NavigatePage("p2");               
+                    PageNavigation.Instance.NavigatePage("p2");
                 }
         }
     }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HireHomeEntertainment.View
 {
     /// <summary>
-    /// Interaction logic for Page2.xaml
+    /// Interaction logic for MediaPlayer.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class MediaPlayer : Page
     {
-        public Page2()
+        public MediaPlayer()
         {
             InitializeComponent();
         }

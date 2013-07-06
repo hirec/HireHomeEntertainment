@@ -12,18 +12,43 @@ using HireHomeEntertainment.ViewModel;
 
 namespace HireHomeEntertainment.Singletons
 {
-    class PageNavigation 
+    public sealed class PageNavigation : ViewModelBase
     {
+        private static volatile PageNavigation instance;
+        private static object syncRoot = new Object();
+
         private Page1 p1;
         private Page2 p2;
         private MainWindow pM;
+        private MediaPlayer MP;
         private Page1ViewModel vm1;
         private Page2ViewModel vm2;
         private MainWindowViewModel vmM;
+        private MediaPlayerViewModel vmMP;
+        
+        public static PageNavigation Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                            instance = new PageNavigation();
+                    }
+                }
+                return instance;
+            }
+        }
 
-        public virtual void NavigatePage(string PageName)
-        {           
-            switch (PageName)
+        private PageNavigation()
+        {
+        }
+
+        public void NavigatePage(string _pageName)
+        {
+            switch (_pageName)
             {
                 case "pM":
                     if (pM == null)
@@ -32,7 +57,7 @@ namespace HireHomeEntertainment.Singletons
                         vmM = new MainWindowViewModel();
                     }
                     pM.DataContext = vmM;
-                    Navigator.NavigationService.Navigate(pM);                                   
+                    Navigator.NavigationService.Navigate(pM);
                     break;
                 case "p1":
                     if (p1 == null)
@@ -41,7 +66,7 @@ namespace HireHomeEntertainment.Singletons
                         vm1 = new Page1ViewModel();
                     }
                     p1.DataContext = vm1;
-                    Navigator.NavigationService.Navigate(p1);  
+                    Navigator.NavigationService.Navigate(p1);
                     break;
                 case "p2":
                     if (p2 == null)
@@ -50,15 +75,10 @@ namespace HireHomeEntertainment.Singletons
                         vm2 = new Page2ViewModel();
                     }
                     p2.DataContext = vm2;
-                    Navigator.NavigationService.Navigate(p2); 
+                    Navigator.NavigationService.Navigate(p2);
                     break;
                 //FUTURE PAGES
-                //case "p3":
-                //    if (p3 == null)
-                //    {
-
-                //    }
-                //    break;
+                
                 //case "p4":
                 //    if (p4 == null)
                 //    {
@@ -66,6 +86,21 @@ namespace HireHomeEntertainment.Singletons
                 //    }
                 //    break;
             }
-        }  
+        }
+        public void NavigatePage(string _pageName, string parameters)
+        {
+            switch (_pageName)
+            {
+                case "MP":
+                    if (MP == null)
+                    {
+                        MP = new MediaPlayer();
+                        vmMP = new MediaPlayerViewModel(parameters);
+                    }
+                    MP.DataContext = vmMP;
+                    Navigator.NavigationService.Navigate(MP);
+                    break;            
+            }
+        }
     }
 }

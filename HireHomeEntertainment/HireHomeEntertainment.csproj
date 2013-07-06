@@ -37,18 +37,31 @@
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.WPF45, Version=4.1.24.16411, Culture=neutral, PublicKeyToken=eabbf6a5f5af5004, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF45\GalaSoft.MvvmLight.WPF45.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="MediaBrowser.ApiInteraction, Version=3.0.4925.37051, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MediaBrowser.ApiClient\packages\MediaBrowser.ApiClient.3.0.0.132\lib\net45\MediaBrowser.ApiInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaBrowser.Common">
+      <HintPath>..\..\MediaBrowser.ApiClient\packages\MediaBrowser.Common.3.0.133\lib\net45\MediaBrowser.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaBrowser.Model">
+      <HintPath>..\..\MediaBrowser.ApiClient\packages\MediaBrowser.Common.3.0.133\lib\net45\MediaBrowser.Model.dll</HintPath>
     </Reference>
     <Reference Include="Mindscape.WpfElements">
       <HintPath>..\..\WpfApplication1\WpfApplication1\Mindscape.WpfElements.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\MediaBrowser.Theater\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,10 +83,16 @@
     <Compile Include="Converters\MouthTypeToBoolConverter.cs" />
     <Compile Include="Model\Argument.cs" />
     <Compile Include="Model\Mouth.cs" />
+    <Compile Include="Singletons\BaseMediaBrowserAPI.cs" />
     <Compile Include="Singletons\Navigator.cs" />
     <Compile Include="Singletons\PageNavigation.cs" />
+    <Compile Include="ViewModel\MediaPlayerViewModel.cs" />
     <Compile Include="ViewModel\Page1ViewModel.cs" />
     <Compile Include="ViewModel\Page2ViewModel.cs" />
+    <Compile Include="ViewModel\Page2ViewModelBackup.cs" />
+    <Compile Include="View\MediaPlayer.xaml.cs">
+      <DependentUpon>MediaPlayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
@@ -93,6 +112,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MediaPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Page1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +155,18 @@
     <Resource Include="View\images\Home Automation.jpg" />
     <Resource Include="View\images\Movies.png" />
     <Resource Include="View\images\TV Shows.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\images\UI_Pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\images\UI_Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\images\UI_Play.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

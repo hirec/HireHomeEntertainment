@@ -5,20 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ms="http://namespaces.mindscape.co.nz/wpf"
       mc:Ignorable="d" Title="Page2">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
-        </Grid.RowDefinitions>
-        <ms:CoverFlow x:Name="MovieCoverFlow" SelectionChanged="MovieCoverflow_SelectionChanged_1" Focusable="False" ShowReflection="False" ItemSeparation="100" ShearAngle="0" SelectedItemSeparation="150" KeyboardNavigation.DirectionalNavigation="Cycle"
-       Grid.ColumnSpan="9" SelectedIndex="1" Grid.RowSpan="6" ItemWidth="50" Grid.Row="0" ItemHeight="50" Background="Transparent">
-            <Image Source="images\Movies.png" Stretch="Uniform"/>
-            <Image Source="images\TV%20Shows.jpg" Stretch="Uniform" />
-            <Image Source="images\Home%20Automation.jpg" Stretch="Uniform"/>
+        </Grid.RowDefinitions>        
+        <Label Grid.Row="0" Height="100">My Movies:</Label>        
+        <ms:CoverFlow x:Name="MovieCoverflow" SelectedValue="{Binding Path=selectedMoviePath}" Focusable="False" ShowReflection="False" ItemSeparation="200" ShearAngle="0" SelectedItemSeparation="200" KeyboardNavigation.DirectionalNavigation="Cycle"
+        ItemsSource="{Binding MyMoviesImages}" SelectedIndex="{Binding Path=selectedMovieIndex, Mode=TwoWay}"  ItemWidth="300" Grid.Row="0" ItemHeight="300" Background="Transparent">
+            <ms:CoverFlow.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding}" />
+                </DataTemplate>
+            </ms:CoverFlow.ItemTemplate>
         </ms:CoverFlow>
-        <ms:CoverFlow x:Name="MovieCoverflowText" SelectionChanged="MovieCoverflowText_SelectionChanged_1" Focusable="False" ShowReflection="False" Width="550" ClipToBounds="True" ItemSeparation="200" ShearAngle="0" SelectedItemSeparation="200" KeyboardNavigation.DirectionalNavigation="Cycle" SelectedIndex="1" ItemWidth="250" Grid.Row="1" ItemHeight="65" Background="Transparent" Margin="0,250,0,0">
-        </ms:CoverFlow>
-        
     </Grid>
 </Page>

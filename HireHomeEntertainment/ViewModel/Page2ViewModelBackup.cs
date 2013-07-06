@@ -12,15 +12,15 @@ using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Input;
-using System.IO;
 
 
 namespace HireHomeEntertainment.ViewModel
 {
-    class Page2ViewModel : ViewModelBase
+    class Page2ViewModelBackup : ViewModelBase
     {
         private ApiClient privApiClient;
-               
+
+
         public List<string> MyMovies
         {
             get { return _movies; }
@@ -30,17 +30,6 @@ namespace HireHomeEntertainment.ViewModel
                 NotifyPropertyChanged("MyMovies");
             }
         } List<string> _movies;
-
-        public string SelectedMediaSource
-        {
-            get { return _selectedMediaSource; }
-            set
-            {
-                _selectedMediaSource = value;
-                MovieCoverflow_SelectionChanged(_selectedMediaSource);
-                NotifyPropertyChanged("SelectedMediaSource");
-            }
-        } string _selectedMediaSource;
 
         public string selectedMoviePath
         {
@@ -74,19 +63,9 @@ namespace HireHomeEntertainment.ViewModel
             }
         } List<BitmapImage> _moviesImage;
 
-        public List<BaseItemDto> MyMovieItems
+        public Page2ViewModelBackup()
         {
-            get { return _movieItems; }
-            set
-            {
-                _movieItems = value;
-                NotifyPropertyChanged("MyMovieItems");
-            }
-        } List<BaseItemDto> _movieItems;
-
-        public Page2ViewModel()
-        {
-            Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown);     
+            Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown);
             privApiClient = BaseMediaBrowserAPI.Instance.publicAPIClient;
             loadItems(privApiClient);
         }
@@ -105,36 +84,37 @@ namespace HireHomeEntertainment.ViewModel
                     SortOrder = MediaBrowser.Model.Entities.SortOrder.Descending,
                     Recursive = true,
                     ImageTypes = new[] { ImageType.Backdrop },
-                    Filters = new[] { ItemFilter.IsUnplayed },
-                    Fields = new[] {
-                    ItemFields.Path,
-                    ItemFields.MediaStreams,
-                    ItemFields.Genres,
-                    }                
-
+                    Filters = new[] { ItemFilter.IsUnplayed }
                 });
-                
-                var items = result.Items.ToList();         
-                MyMovieItems = items;
+
+                var items = result.Items.ToList();
                 var movielist = new List<string>();
-                var movieimages = new List<BitmapImage>();                
+                var movieimages = new List<BitmapImage>();
 
                 var imageoptions = new ImageOptions
                 {
                     ImageType = ImageType.Primary,
-                    Quality =  100                 
+                    Quality = 100
                 };
-                                             
+                var streamoptions = new StreamOptions
+                {
+
+                };
+
                 foreach (BaseItemDto item in items)
                 {
+                    if (item.VideoType.HasValue)
+                    {
+                    }
+
                     if (item.HasPrimaryImage)
                     {
-                        var uri = client.GetImageUrl(item, imageoptions);                        
-                        BitmapImage bitmap = new BitmapImage();                      
+                        var uri = client.GetImageUrl(item, imageoptions);
+                        BitmapImage bitmap = new BitmapImage();
                         bitmap.BeginInit();
                         bitmap.UriSource = new Uri(uri);
                         bitmap.EndInit();
-                        movieimages.Add(bitmap);                     
+                        movieimages.Add(bitmap);
                     }
                     movielist.Add(item.Name);
                 }
@@ -149,11 +129,8 @@ namespace HireHomeEntertainment.ViewModel
         }
 
         private void MovieCoverflow_SelectionChanged(string moviePath)
-        {        
+        {
             //This can be used to set the selected movie path to play in external player
-           
-            var selectedMovie = MyMovieItems[selectedMovieIndex];          
-            _selectedMediaSource = selectedMovie.Path;            
         }
 
         private void MovieCoverflow_SelectionIndexChanged(int index)
@@ -173,13 +150,13 @@ namespace HireHomeEntertainment.ViewModel
             }
             if (e.Key == Key.Right)
             {
-                selectedMovieIndex++;               
+                selectedMovieIndex++;
             }
 
             if (e.Key == Key.Enter)
             {
-                PageNavigation.Instance.NavigatePage("MP", _selectedMediaSource);
+                PageNavigation.Instance.NavigatePage("MP", selectedMoviePath);
             }
         }
-    }   
+    }
 }
