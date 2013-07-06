@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using MVVM;
-using WPFMediaKit.DirectShow.Controls;
-
+using System.Windows.Controls;
 
 namespace HireHomeEntertainment.ViewModel
 {
     class MediaPlayerViewModel : ViewModelBase
-    {  
+    {
+        public string selectedMoviePath
+        {
+            get { return _selectedMoviePath; }
+            set
+            {
+                _selectedMoviePath = value;
+                NotifyPropertyChanged("selectedMoviePath");
+            }
+        } string _selectedMoviePath;       
 
        #region Public Variables
-        public MediaUriElement MediaEL { set; get; } 
-       // public MediaElement MediaEL { set; get; }
-       // public MediaState LoadedBehavior { set; get; }
-        public bool CanCommandExecute { set; get; }   
+
+       public MediaElement MediaEL { set; get; }
+       public MediaState LoadedBehavior { set; get; }
+       public bool CanCommandExecute { set; get; }   
           
        #endregion
 
@@ -31,18 +38,16 @@ namespace HireHomeEntertainment.ViewModel
        {           
            RegisterCommands();           
 
-          // MediaEL = new MediaElement();
-           MediaEL = new MediaUriElement();
-           MediaEL.VideoRenderer = WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.VideoMixingRenderer9;
+           MediaEL = new MediaElement();
            if (MediaURI != "")
            {
                //Only add "\\VIDEO_TS\\VTS_01_1.VOB" if a vob file
-             //  MediaURI = MediaURI + "\\VIDEO_TS\\VTS_01_0.VOB";
+               MediaURI = MediaURI + "\\VIDEO_TS\\VTS_01_0.VOB";
                Uri MediaSource = new Uri(MediaURI);                
                MediaEL.Source = MediaSource;
+               System.Windows.MessageBox.Show(MediaSource.ToString());
            }
-           MediaEL.LoadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
-        //   MediaEL.LoadedBehavior = MediaState.Manual;
+           MediaEL.LoadedBehavior = MediaState.Manual;
        }
 
        #endregion
