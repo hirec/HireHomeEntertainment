@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,11 +50,24 @@ namespace HireHomeEntertainment.View
         /// </summary>
         public MediaPlayer(string parameters)
         {
-            // Set libvlc.dll and libvlccore.dll directory path
-            VlcContext.LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
+            if (Directory.Exists("C:\\Program Files\\VideoLAN\\VLC"))
+            {
+                // Set libvlc.dll and libvlccore.dll directory path
+                VlcContext.LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 
-            // Set the vlc plugins directory path
-            VlcContext.LibVlcPluginsPath = @"C:\Program Files\VideoLAN\VLC\plugins";
+                // Set the vlc plugins directory path
+                VlcContext.LibVlcPluginsPath = @"C:\Program Files\VideoLAN\VLC\plugins";
+            }
+            else
+            {
+                // Set libvlc.dll and libvlccore.dll directory path
+                VlcContext.LibVlcDllsPath = @"C:\Program Files (x86)\VideoLAN\VLC";
+
+                // Set the vlc plugins directory path
+                VlcContext.LibVlcPluginsPath = @"C:\Program Files (x86)\VideoLAN\VLC\plugins";
+            }
+
+            
 
             /* Setting up the configuration of the VLC instance.
              * You can use any available command-line option using the AddOption function (see last two options). 
