@@ -81,7 +81,8 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Mindscape.WpfElements">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Mindscape\WPF Elements\Bin\Mindscape.WpfElements.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Mindscape\WPF Elements\Bin\Mindscape.WpfElements.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -100,13 +101,13 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="Vlc.DotNet.Core">
-      <HintPath>..\..\..\..\..\Downloads\VideoLan DotNet for WinForm, WPF, SL5 - 2011.11.29\Vlc.DotNet.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\vlcdotnet-70298\Vlc.DotNet\Vlc.DotNet.Wpf\bin\Debug\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Core.Interops">
-      <HintPath>..\..\..\..\..\Downloads\VideoLan DotNet for WinForm, WPF, SL5 - 2011.11.29\Vlc.DotNet.Core.Interops.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\vlcdotnet-70298\Vlc.DotNet\Vlc.DotNet.Wpf\bin\Debug\Vlc.DotNet.Core.Interops.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Wpf">
-      <HintPath>..\..\..\..\..\Downloads\VideoLan DotNet for WinForm, WPF, SL5 - 2011.11.29\Vlc.DotNet.Wpf.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\vlcdotnet-70298\Vlc.DotNet\Vlc.DotNet.Wpf\bin\Debug\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WebSocket4Net">
       <HintPath>..\packages\WebSocket4Net.0.8\lib\net40\WebSocket4Net.dll</HintPath>

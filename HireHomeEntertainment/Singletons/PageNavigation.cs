@@ -94,7 +94,7 @@ namespace HireHomeEntertainment.Singletons
                 case "MP":
                     if (MP == null)
                     {
-                        MP = new MediaPlayer();
+                        MP = new MediaPlayer(parameters);
                         vmMP = new MediaPlayerViewModel(parameters);
                     }
                     MP.DataContext = vmMP;
