@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 using MVVM;
+using Microsoft.Win32;
 using WPFMediaKit.DirectShow.Controls;
-
 
 namespace HireHomeEntertainment.ViewModel
 {
@@ -14,35 +15,44 @@ namespace HireHomeEntertainment.ViewModel
     {  
 
        #region Public Variables
-        public MediaUriElement MediaEL { set; get; } 
-       // public MediaElement MediaEL { set; get; }
-       // public MediaState LoadedBehavior { set; get; }
+        public MediaUriElement MediaELVOB { set; get; }
+        public MediaElement MediaEL { set; get; }
+        public MediaState LoadedBehavior { set; get; }     
         public bool CanCommandExecute { set; get; }   
           
        #endregion
 
        #region Private Variables
-        
+        private string _currentVideoPlayer;
+       
        #endregion
 
        #region Constructor
 
        public MediaPlayerViewModel(string MediaURI)
        {           
-           RegisterCommands();           
-
-          // MediaEL = new MediaElement();
-           MediaEL = new MediaUriElement();
-           MediaEL.VideoRenderer = WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.VideoMixingRenderer9;
+           RegisterCommands();
+          
            if (MediaURI != "")
            {
-               //Only add "\\VIDEO_TS\\VTS_01_1.VOB" if a vob file
-             //  MediaURI = MediaURI + "\\VIDEO_TS\\VTS_01_0.VOB";
-               Uri MediaSource = new Uri(MediaURI);                
-               MediaEL.Source = MediaSource;
+               if (MediaURI.Contains(".avi") || MediaURI.Contains(".mp4") || MediaURI.Contains("mkv"))
+               {
+                   MediaEL = new MediaElement();
+                   Uri MediaSource = new Uri(MediaURI);
+                   MediaEL.Source = MediaSource;
+                   MediaEL.LoadedBehavior = MediaState.Manual;
+                   _currentVideoPlayer = "REG";                   
+               }
+               else
+               {  
+                  MediaELVOB = new MediaUriElement();
+                  MediaURI = MediaURI + "\\VIDEO_TS\\VTS_01_1.VOB";
+                  Uri MediaSource = new Uri(MediaURI);
+                  MediaELVOB.Source = MediaSource;
+                  MediaELVOB.LoadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
+                  _currentVideoPlayer = "VOB";
+               }                     
            }
-           MediaEL.LoadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
-        //   MediaEL.LoadedBehavior = MediaState.Manual;
        }
 
        #endregion
@@ -69,19 +79,40 @@ namespace HireHomeEntertainment.ViewModel
 
         private void ExecutePlay()
         {
-            MediaEL.Play();
+            if (_currentVideoPlayer == "VOB")
+            {
+                MediaELVOB.Play();
+            }
+            else
+            {
+                MediaEL.Play();
+            }
         }
         private void ExecuteStop()
         {
-            MediaEL.Stop();
+            if (_currentVideoPlayer == "VOB")
+            {
+                MediaELVOB.Stop();
+            }
+            else
+            {
+                MediaEL.Stop();
+            }
         }
         private void ExecutePause()
         {
-            MediaEL.Pause();
+            if (_currentVideoPlayer == "VOB")
+            {
+                MediaELVOB.Pause();
+            }
+            else
+            {
+                MediaEL.Pause();
+            }
         }
         private void ExecuteResume()
         {
-            
+                  
         }
 
         #endregion
