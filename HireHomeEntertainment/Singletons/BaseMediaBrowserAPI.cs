@@ -48,7 +48,7 @@ namespace HireHomeEntertainment.Singletons
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an error launching Media Browser: " + ex.Message);
+                MessageBox.Show("There was an error launching MOVIES Browser: " + ex.Message);
             }
         }
 

@@ -16,13 +16,15 @@ using System.Windows.Shapes;
 namespace HireHomeEntertainment.View
 {
     /// <summary>
-    /// Interaction logic for Page2.xaml
+    /// Interaction logic for MOVIES.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class Media : Page
     {
-        public Page2()
+        public Media()
         {
             InitializeComponent();
         }
+
+                 
     }
 }

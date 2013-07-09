@@ -9,6 +9,9 @@ using MVVM;
 using HireHomeEntertainment.Singletons;
 using HireHomeEntertainment.View;
 using HireHomeEntertainment.ViewModel;
+using System.Windows;
+using System.Windows.Controls;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace HireHomeEntertainment.Singletons
 {
@@ -16,15 +19,22 @@ namespace HireHomeEntertainment.Singletons
     {
         private static volatile PageNavigation instance;
         private static object syncRoot = new Object();
+        public static string CurrentPage;
 
-        private Page1 p1;
-        private Page2 p2;
-        private MainWindow pM;
-        private MediaPlayer MP;
-        private Page1ViewModel vm1;
-        private Page2ViewModel vm2;
-        private MainWindowViewModel vmM;
-        private MediaPlayerViewModel vmMP;
+        private Home Home;
+        private Media MOVIES;
+        private Media TV;
+        private MainWindow Main;
+        private MediaPlayer MediaPlayer;
+        private HomeViewModel HomeVM;
+        private MediaViewModel MediaVM;
+        private MediaViewModel TVVM;
+        private MainWindowViewModel MainVM;
+        private MediaPlayerViewModel MediaPlayerVM;
+
+        private Frame _frame;
+        private bool _stopSearch;
+        private string _lastPage;
         
         public static PageNavigation Instance
         {
@@ -44,63 +54,113 @@ namespace HireHomeEntertainment.Singletons
 
         private PageNavigation()
         {
+            Window mainWindow = Application.Current.MainWindow;
+            _frame = (Frame)mainWindow.FindName("NavigationFrame");
+            
         }
+
+        public void NavigateBack()
+        {
+            _stopSearch = false;
+                       
+            foreach (JournalEntry j in _frame.BackStack)
+            {
+                if (_stopSearch == false)
+                {
+                    _lastPage = j.Name;
+                }
+                _stopSearch = true;
+            }
+
+            NavigatePage(_lastPage);  //NEED TO FIX: Problem if navigate to movies, play movie, exit back to media, then try to escape, the backstack has mediaplayer as back instead of Home since mediaplayer was the "back"
+                    
+        }
+
+        public void NavigateBack(string callingPage)
+        {
+            _stopSearch = false;
+
+            foreach (JournalEntry j in _frame.BackStack)
+            {
+                if (_stopSearch == false)
+                {
+                    _lastPage = j.Name;
+                }
+                _stopSearch = true;
+            }
+
+            if (_lastPage == "Media")
+            {
+                _lastPage = callingPage;
+            }
+
+            NavigatePage(_lastPage);
+
+        }
+        
 
         public void NavigatePage(string _pageName)
         {
+            CurrentPage = _pageName;
+
             switch (_pageName)
             {
-                case "pM":
-                    if (pM == null)
+                case "Main":
+                    if (Main == null)
                     {
-                        pM = new MainWindow();
-                        vmM = new MainWindowViewModel();
+                        MainVM = new MainWindowViewModel();
+                        Main = new MainWindow();                        
                     }
-                    pM.DataContext = vmM;
-                    Navigator.NavigationService.Navigate(pM);
+                    Main.DataContext = MainVM;                   
+                    Navigator.NavigationService.Navigate(Main);
                     break;
-                case "p1":
-                    if (p1 == null)
+                case "Home":
+                    if (Home == null)
                     {
-                        p1 = new Page1();
-                        vm1 = new Page1ViewModel();
+                        HomeVM = new HomeViewModel();
+                        Home = new Home();                       
                     }
-                    p1.DataContext = vm1;
-                    Navigator.NavigationService.Navigate(p1);
+                    Home.DataContext = HomeVM;
+                    Navigator.NavigationService.Navigate(Home);
                     break;
-                case "p2":
-                    if (p2 == null)
+                case "MOVIES":
+                    if (MOVIES == null)
                     {
-                        p2 = new Page2();
-                        vm2 = new Page2ViewModel();
+                        MediaVM = new MediaViewModel(_pageName);
+                        MOVIES = new Media();                        
                     }
-                    p2.DataContext = vm2;
-                    Navigator.NavigationService.Navigate(p2);
-                    break;
-                //FUTURE PAGES
+                    MOVIES.DataContext = MediaVM;
+                    Navigator.NavigationService.Navigate(MOVIES);
+                    break;            
                 
-                //case "p4":
-                //    if (p4 == null)
-                //    {
-
-                //    }
-                //    break;
+                case "TV SHOWS":
+                    if (TV == null)
+                    {
+                        TVVM = new MediaViewModel(_pageName);
+                        TV = new Media();                        
+                    }
+                    TV.DataContext = TVVM;
+                    Navigator.NavigationService.Navigate(TV);
+                    break;
             }
         }
-        public void NavigatePage(string _pageName, string parameters)
+        public void NavigatePage(string _pageName, string parameters, string callingPage)
         {
+            CurrentPage = _pageName;
+
             switch (_pageName)
             {
-                case "MP":
-                    if (MP == null)
+                case "MediaPlayer":
+                    if (MediaPlayer == null)
                     {
-                        MP = new MediaPlayer(parameters);
-                        vmMP = new MediaPlayerViewModel(parameters);
+                        MediaPlayerVM = new MediaPlayerViewModel(parameters);
+                        MediaPlayer = new MediaPlayer(parameters, callingPage);                        
                     }
-                    MP.DataContext = vmMP;
-                    Navigator.NavigationService.Navigate(MP);
+                    MediaPlayer.DataContext = MediaPlayerVM;
+                    Navigator.NavigationService.Navigate(MediaPlayer);
                     break;            
             }
         }
+
     }
 }

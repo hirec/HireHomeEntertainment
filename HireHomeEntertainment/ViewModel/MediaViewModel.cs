@@ -17,10 +17,18 @@ using System.IO;
 
 namespace HireHomeEntertainment.ViewModel
 {
-    class Page2ViewModel : ViewModelBase
+    class MediaViewModel : ViewModelBase
     {
+        #region Private Variables
+
         private ApiClient privApiClient;
-               
+        private string _callingPage;
+        private bool _allowKeyPressMonitoring;
+
+        #endregion
+
+        #region Public Variables
+
         public List<string> MyMovies
         {
             get { return _movies; }
@@ -84,11 +92,37 @@ namespace HireHomeEntertainment.ViewModel
             }
         } List<BaseItemDto> _movieItems;
 
-        public Page2ViewModel()
+        #endregion
+
+        #region Constructor
+
+        public MediaViewModel(string callingPage)
         {
+            RegisterCommands();    
+            _allowKeyPressMonitoring = true;
+            _callingPage = callingPage;
             Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown);     
             privApiClient = BaseMediaBrowserAPI.Instance.publicAPIClient;
             loadItems(privApiClient);
+          
+        }
+
+        #endregion
+
+        #region commands
+
+        public static RelayCommand Load { get; set; }
+
+        #endregion
+
+        private void RegisterCommands()
+        {
+            Load = new RelayCommand(param => OnLoad());
+        }
+
+        private void OnLoad()
+        {
+            _allowKeyPressMonitoring = true;
         }
 
         private async void loadItems(ApiClient client)
@@ -163,23 +197,32 @@ namespace HireHomeEntertainment.ViewModel
 
         private void MainWindow_KeyDown(KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (PageNavigation.CurrentPage == _callingPage && _allowKeyPressMonitoring)
             {
-                if (selectedMovieIndex >= 1)
+                if (e.Key == Key.Left)
                 {
-                    selectedMovieIndex--;
+                    if (selectedMovieIndex >= 1)
+                    {
+                        selectedMovieIndex--;
+                    }
+
+                }
+                if (e.Key == Key.Right)
+                {
+                    selectedMovieIndex++;
                 }
 
-            }
-            if (e.Key == Key.Right)
-            {
-                selectedMovieIndex++;               
-            }
-
-            if (e.Key == Key.Enter)
-            {
-                PageNavigation.Instance.NavigatePage("MP", _selectedMediaSource);
+                if (e.Key == Key.Enter)
+                {
+                    PageNavigation.Instance.NavigatePage("MediaPlayer", _selectedMediaSource, _callingPage);
+                }
+                if (e.Key == Key.Escape)
+                {
+                    _allowKeyPressMonitoring = false;
+                    PageNavigation.Instance.NavigateBack();
+                }
             }
         }
+               
     }   
 }

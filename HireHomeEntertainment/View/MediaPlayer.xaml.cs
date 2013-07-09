@@ -21,6 +21,8 @@ using Vlc.DotNet.Core.Medias;
 using System.ComponentModel;
 using Vlc.DotNet.Wpf;
 using HireHomeEntertainment.Singletons;
+using GalaSoft.MvvmLight.Messaging;
+using MVVM;
 
 namespace HireHomeEntertainment.View
 {
@@ -39,7 +41,8 @@ namespace HireHomeEntertainment.View
         /// Used to indicate that the user is currently changing the position (and the position bar shall not be updated). 
         /// </summary>
         private bool myPositionChanging;
-        private string parameters;
+        private string _callingPage;
+        private bool _allowKeyPressMonitoring;
 
         #endregion
 
@@ -48,8 +51,11 @@ namespace HireHomeEntertainment.View
         /// <summary>
         /// Initializes a new instance of the <see cref="VlcPlayer"/> class.
         /// </summary>
-        public MediaPlayer(string parameters)
+        public MediaPlayer(string parameters, string callingPage)
         {
+            _callingPage = callingPage;
+            Messenger.Default.Register<KeyEventArgs>(this, MainWindow_KeyDown); 
+
             if (Directory.Exists("C:\\Program Files\\VideoLAN\\VLC"))
             {
                 // Set libvlc.dll and libvlccore.dll directory path
@@ -105,21 +111,25 @@ namespace HireHomeEntertainment.View
             myVlcControl.Media = new PathMedia(parameters);
             myVlcControl.Media.ParsedChanged += MediaOnParsedChanged;
             myVlcControl.Play();
-         //   Closing += MainWindowOnClosing;
         }           
+        
+        #endregion
 
-        /// <summary>
-        /// Main window closing event
-        /// </summary>
-        /// <param name="sender">Event sender. </param>
-        /// <param name="e">Event arguments. </param>
-        private void MainWindowOnClosing(object sender, CancelEventArgs e)
-        {
-            // Close the context. 
-            VlcContext.CloseAll();
-        }
+        #region commands
+
+        public static RelayCommand Load { get; set; }
 
         #endregion
+
+        private void RegisterCommands()
+        {
+            Load = new RelayCommand(param => OnLoad());
+        }
+
+        private void OnLoad()
+        {
+            _allowKeyPressMonitoring = true;
+        }
 
         #region Control playing
 
@@ -171,7 +181,7 @@ namespace HireHomeEntertainment.View
             var openFileDialog = new OpenFileDialog
             {
                 Title = "Open media file for playback",
-                FileName = "Media File",
+                FileName = "MOVIES File",
                 Filter = "All files |*.*"
             };
 
@@ -186,7 +196,7 @@ namespace HireHomeEntertainment.View
             myVlcControl.Play();
 
             /* Instead of opening a file for playback you can also connect to media streams using
-             *     myVlcControl.Media = new LocationMedia(@"http://88.190.232.102:6404");
+             *     myVlcControl.MOVIES = new LocationMedia(@"http://88.190.232.102:6404");
              *     myVlcControl.Play();
              */
         }
@@ -214,7 +224,7 @@ namespace HireHomeEntertainment.View
         #endregion
 
         /// <summary>
-        /// Called by <see cref="VlcControl.Media"/> when the media information was parsed. 
+        /// Called by <see cref="VlcControl.MOVIES"/> when the media information was parsed. 
         /// </summary>
         /// <param name="sender">Event sending media. </param>
         /// <param name="e">VLC event arguments. </param>
@@ -326,9 +336,41 @@ namespace HireHomeEntertainment.View
 
         private void ButtonExitMPClick(object sender, RoutedEventArgs e)
         {
-            myVlcControl.Stop();
+            exitMediaPlayer();
+        }
+
+        private void exitMediaPlayer()
+        {
+            if (myVlcControl.IsPlaying)
+            {
+                myVlcControl.Stop();
+            }
             VlcContext.CloseAll();
-            PageNavigation.Instance.NavigatePage("p2");
+            _allowKeyPressMonitoring = false;
+            PageNavigation.Instance.NavigateBack(_callingPage); 
+        }
+
+        private void MainWindow_KeyDown(KeyEventArgs e)
+        {
+            if (PageNavigation.CurrentPage == _callingPage && _allowKeyPressMonitoring)
+            {
+                if (e.Key == Key.Left)
+                {
+                    
+                }
+                if (e.Key == Key.Right)
+                {
+                }
+
+                if (e.Key == Key.Enter)
+                {
+                    
+                }
+                if (e.Key == Key.Escape)
+                {
+                    exitMediaPlayer();
+                }
+            }
         }
     }
 }
