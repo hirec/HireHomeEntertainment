@@ -345,7 +345,10 @@ namespace HireHomeEntertainment.View
             {
                 myVlcControl.Stop();
             }
-            VlcContext.CloseAll();
+            if (VlcContext.IsInitialized)
+            {
+                VlcContext.CloseAll();
+            }
             _allowKeyPressMonitoring = false;
             PageNavigation.Instance.NavigateBack(_callingPage); 
         }

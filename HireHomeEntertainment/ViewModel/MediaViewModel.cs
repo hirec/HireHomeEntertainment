@@ -219,7 +219,7 @@ namespace HireHomeEntertainment.ViewModel
                 if (e.Key == Key.Escape)
                 {
                     _allowKeyPressMonitoring = false;
-                    PageNavigation.Instance.NavigateBack();
+                    PageNavigation.Instance.NavigateBack(_callingPage);
                 }
             }
         }

@@ -20,6 +20,7 @@ namespace HireHomeEntertainment.Singletons
         private static volatile PageNavigation instance;
         private static object syncRoot = new Object();
         public static string CurrentPage;
+        public static string PreviousPage;
 
         private Home Home;
         private Media MOVIES;
@@ -34,7 +35,9 @@ namespace HireHomeEntertainment.Singletons
 
         private Frame _frame;
         private bool _stopSearch;
-        private string _lastPage;
+        private string _previousPage;
+        private string _currentPage;
+        private List<string> _navigationStack;
         
         public static PageNavigation Instance
         {
@@ -55,52 +58,40 @@ namespace HireHomeEntertainment.Singletons
         private PageNavigation()
         {
             Window mainWindow = Application.Current.MainWindow;
-            _frame = (Frame)mainWindow.FindName("NavigationFrame");
-            
-        }
-
-        public void NavigateBack()
-        {
-            _stopSearch = false;
-                       
-            foreach (JournalEntry j in _frame.BackStack)
-            {
-                if (_stopSearch == false)
-                {
-                    _lastPage = j.Name;
-                }
-                _stopSearch = true;
-            }
-
-            NavigatePage(_lastPage);  //NEED TO FIX: Problem if navigate to movies, play movie, exit back to media, then try to escape, the backstack has mediaplayer as back instead of Home since mediaplayer was the "back"
-                    
-        }
+            _frame = (Frame)mainWindow.FindName("NavigationFrame");   
+            _navigationStack = new List<string>();
+        }       
 
         public void NavigateBack(string callingPage)
         {
-            _stopSearch = false;
+            _navigationStack.Remove(callingPage);
+            NavigatePage(_navigationStack.Last());
 
-            foreach (JournalEntry j in _frame.BackStack)
-            {
-                if (_stopSearch == false)
-                {
-                    _lastPage = j.Name;
-                }
-                _stopSearch = true;
-            }
+            //_stopSearch = false;
 
-            if (_lastPage == "Media")
-            {
-                _lastPage = callingPage;
-            }
+            //foreach (JournalEntry j in _frame.BackStack)
+            //{
+            //    if (_stopSearch == false)
+            //    {
+            //        _previousPage = j.Name;
+            //    }
+            //    _stopSearch = true;
+            //}
 
-            NavigatePage(_lastPage);
+            //if (_previousPage == "Media")
+            //{
+            //    _previousPage = callingPage;
+            //}
+           // NavigatePage(_previousPage);
 
         }
         
 
         public void NavigatePage(string _pageName)
         {
+            _navigationStack.Add(_pageName);
+            MessageBox.Show("added " + _pageName + " to stack");
+
             CurrentPage = _pageName;
 
             switch (_pageName)
@@ -146,6 +137,8 @@ namespace HireHomeEntertainment.Singletons
         }
         public void NavigatePage(string _pageName, string parameters, string callingPage)
         {
+            _navigationStack.Add(_pageName);
+            MessageBox.Show("added " + _pageName + " to stack");
             CurrentPage = _pageName;
 
             switch (_pageName)
